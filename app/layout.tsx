@@ -8,6 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import { AuthProvider } from './context/AuthContext';
+import HeadphonesIcon from '@mui/icons-material/Headphones';
 
 const NAVIGATION: Navigation = [
   {
@@ -22,6 +23,11 @@ const NAVIGATION: Navigation = [
     segment: 'orders',
     title: 'Orders',
     icon: <ShoppingCartIcon />,
+  },
+  {
+    segment: 'items',
+    title: 'Items',
+    icon: <HeadphonesIcon />,
   },
   {
     segment: 'employees',
