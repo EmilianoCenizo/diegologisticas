@@ -20,16 +20,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       (firebaseUser) => {
         setUser(firebaseUser);
         setLoading(false);
-        if (!firebaseUser) {
+
+        const isAuthPage =
+        typeof window !== 'undefined' &&
+        (window.location.pathname === '/auth/signin' || window.location.pathname === '/auth/signup');      
+
+        if (!firebaseUser && !isAuthPage) {
           router.push('/auth/signin');
         }
-      },
+        },
       (error) => {
         console.error('AuthContext error:', error);
         setLoading(false);

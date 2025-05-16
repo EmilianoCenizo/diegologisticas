@@ -8,6 +8,7 @@ import { auth } from '../../../lib/firebase';
 import { createTheme } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/navigation';
+import Button from '@mui/material/Button';
 
 const providers = [
   { id: 'credentials', name: 'Email y Contraseña' },
@@ -48,7 +49,9 @@ export default function SignIn() {
   const [error, setError] = React.useState(null);
   const router = useRouter();
 
-  console.log('SignIn component rendered at:', new Date().toISOString());
+  const goToSignup = () => {
+    router.push('/auth/signup');
+  };
 
   return (
     <AppProvider branding={BRANDING} theme={theme}>
@@ -86,6 +89,7 @@ export default function SignIn() {
                 reject(error);
               });
             });
+
             console.log('User confirmed after sign-in:', user.uid, 'at:', new Date().toISOString());
             // Retraso adicional para asegurar sincronización
             console.log('Waiting for auth state to settle');
@@ -103,6 +107,12 @@ export default function SignIn() {
           form: { noValidate: true },
         }}
       />
+    <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+    ¿No tenés cuenta?{' '}
+    <Button variant="text" color="primary" onClick={() => router.push('/auth/signup')}>
+      Registrate acá
+    </Button>
+  </div>
     </AppProvider>
   );
 }
