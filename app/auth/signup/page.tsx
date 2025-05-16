@@ -14,6 +14,7 @@ import LoadingButton from '@mui/lab/LoadingButton'; // ✅ nuevo
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth';
 
 export default function SignUpPage() {
   const [name, setName] = useState('');
@@ -27,18 +28,23 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true); // ✅ activar loading
-
+    setLoading(true);
+  
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
+      // 🔸 Set displayName en el perfil de Firebase Auth
+      await updateProfile(user, { displayName: name });
+  
+      // 🔸 Crear entrada en Firestore con más datos
       await setDoc(doc(db, 'users', user.uid), {
-        name,
-        email,
+        uid: user.uid,
+        email: user.email,
+        displayName: name,   // usar displayName en vez de name
         createdAt: new Date().toISOString(),
       });
-
+        
       setSuccess(true);
       setTimeout(() => {
         router.push('/');
@@ -46,10 +52,10 @@ export default function SignUpPage() {
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false); // ✅ desactivar loading
+      setLoading(false);
     }
   };
-
+    
   return (
     <Box sx={{ maxWidth: 400, mx: 'auto', mt: 8 }}>
       <Typography variant="h5" gutterBottom>

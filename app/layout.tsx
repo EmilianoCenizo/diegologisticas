@@ -30,8 +30,8 @@ const NAVIGATION: Navigation = [
     icon: <HeadphonesIcon />,
   },
   {
-    segment: 'employees',
-    title: 'Employees',
+    segment: 'users',
+    title: 'Usuarios',
     icon: <PersonIcon />,
     pattern: 'employees{/:employeeId}*',
   },

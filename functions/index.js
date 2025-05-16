@@ -12,10 +12,13 @@ exports.syncUserOnCreate = functions.auth.user().onCreate(async (user) => {
   };
 
   try {
-    await admin.firestore().collection("users").doc(user.uid).set(userData);
-    console.log(`Usuario agregado a Firestore: ${user.uid}`);
+    await admin.firestore().collection("users")
+        .doc(user.uid)
+        .set(userData, {merge: true});
+    // <-- merge evita sobreescribir todo si ya existe
+    console.log(`Usuario agregado o actualizado en Firestore: ${user.uid}`);
   } catch (error) {
-    console.error("Error al agregar usuario:", error);
+    console.error("Error al agregar/actualizar usuario:", error);
   }
 });
 
