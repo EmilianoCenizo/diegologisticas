@@ -9,26 +9,33 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import { AuthProvider } from './context/AuthContext';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const NAVIGATION: Navigation = [
   {
     kind: 'header',
     title: 'Main items',
   },
-  {
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-  },
-  {
-    segment: 'orders',
-    title: 'Orders',
-    icon: <ShoppingCartIcon />,
-  },
+  // {
+  //   title: 'Dashboard',
+  //   icon: <DashboardIcon />,
+  // },
+  // {
+  //   segment: 'orders',
+  //   title: 'Orders',
+  //   icon: <ShoppingCartIcon />,
+  // },
   {
     segment: 'items',
     title: 'Items',
     icon: <HeadphonesIcon />,
   },
+  {
+    segment: 'assignments',
+    title: 'Asignaciones',
+    icon: <AssignmentIcon />,
+  },
+  
   {
     segment: 'users',
     title: 'Usuarios',

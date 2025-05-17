@@ -9,6 +9,7 @@ exports.syncUserOnCreate = functions.auth.user().onCreate(async (user) => {
     email: user.email || null,
     displayName: user.displayName || null,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    role: "user",
   };
 
   try {

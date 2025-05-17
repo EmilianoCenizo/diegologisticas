@@ -19,6 +19,7 @@ import {
   Button,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useAuth } from '../../context/AuthContext'; // ajusta el path según tu proyecto
 
 type User = {
   id: string;
@@ -32,6 +33,7 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const { user, role } = useAuth(); // obtener usuario y rol actual
 
   useEffect(() => {
     fetchUsers();
@@ -97,30 +99,31 @@ export default function UsersPage() {
         Lista de Usuarios
       </Typography>
       <Stack spacing={2}>
-        {users.map(({ id, email, displayName, role }) => (
+        {users.map(({ id, email, displayName, role: userRole }) => (
           <Paper key={id} sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box>
               <Typography variant="h6">{displayName || 'Sin nombre'}</Typography>
               <Typography variant="body2">{email}</Typography>
-              {role && (
+              {userRole && (
                 <Typography variant="caption" color="text.secondary">
-                  Rol: {role}
+                  Rol: {userRole}
                 </Typography>
               )}
             </Box>
-            <Tooltip title="Eliminar">
-              <IconButton
-                color="error"
-                onClick={() => setDeletingId(id)}
-                aria-label={`Eliminar ${email}`}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            {role === 'admin' && (
+              <Tooltip title="Eliminar">
+                <IconButton
+                  color="error"
+                  onClick={() => setDeletingId(id)}
+                  aria-label={`Eliminar ${email}`}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </Paper>
         ))}
       </Stack>
-
       {/* Dialogo confirmación eliminar */}
       <Dialog open={!!deletingId} onClose={() => setDeletingId(null)}>
         <DialogTitle>Confirmar eliminación</DialogTitle>

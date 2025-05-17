@@ -42,6 +42,7 @@ export default function SignUpPage() {
         uid: user.uid,
         email: user.email,
         displayName: name,   // usar displayName en vez de name
+        role: "user",
         createdAt: new Date().toISOString(),
       });
         
